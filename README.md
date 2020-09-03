@@ -11,11 +11,14 @@ Unimap uses its own technology to initially resolve the IP addresses of all subd
 
 You need to have Rust installed, then run:
 
+* `cargo install unimap` to install from [crates.io](https://crates.io).
+* or
 ```
 $ git clone https://github.com/Edu4rdSHL/unimap.git && cd unimap
 $ cargo build --release
 $ sudo ./target/release/unimap
 ```
+to install from Github.
 
 # Usage
 
