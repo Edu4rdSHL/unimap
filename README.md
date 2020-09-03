@@ -1,4 +1,4 @@
-# unimap
+# Unimap
 Scan only once by IP address and reduce scan times with Nmap for large amounts of data. Unimap is an abbreviation of "Unique Nmap *Scan*".
 
 # Why?

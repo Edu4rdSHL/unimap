@@ -26,13 +26,13 @@ args:
         - output:
                   short: o
                   long: output
-                  help: Write to an output file. The name of the output file will be the target string with TXT format.
+                  help: Write to an output file. The name of the output file will be unimap-log-date.
                   takes_value: false
 
         - unique-output:
                   short: u
                   long: unique-output
-                  help: Write all the results for a target or a list of targets to a specified filename.
+                  help: Write the output in CSV format to the specified filename.
                   takes_value: true
                   multiple: false
                   conflicts_with:
@@ -78,7 +78,7 @@ args:
                   takes_value: false
 
         - logs-dir:
-                  help: Path to save the subdomains HTML data.
+                  help: Path to save the CSV data of the process. Default to logs/ when using -o.
                   long: logs-dir
                   takes_value: true
                   multiple: false
