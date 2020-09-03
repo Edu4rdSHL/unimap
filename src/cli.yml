@@ -1,0 +1,84 @@
+name: Unimap
+author: Eduard Tolosa <edu4rdshl@protonmail.com>
+settings:
+        - ArgRequiredElseHelp
+        - StrictUtf8
+about: Scan only once by IP address.
+args:
+        - target:
+                  short: t
+                  long: target
+                  help: Target host.
+                  takes_value: true
+                  multiple: false
+                  conflicts_with:
+                          - files
+
+        - files:
+                  short: f
+                  long: file
+                  help: Use a list of targets writen in a file as input.
+                  takes_value: true
+                  multiple: true
+                  conflicts_with:
+                          - target
+
+        - output:
+                  short: o
+                  long: output
+                  help: Write to an output file. The name of the output file will be the target string with TXT format.
+                  takes_value: false
+
+        - unique-output:
+                  short: u
+                  long: unique-output
+                  help: Write all the results for a target or a list of targets to a specified filename.
+                  takes_value: true
+                  multiple: false
+                  conflicts_with:
+                          - output
+
+        - quiet:
+                  short: q
+                  long: quiet
+                  help: Remove informative messages.
+                  takes_value: false
+
+        - threads:
+                  help: Number of threads to use to perform the resolution.
+                  long: threads
+                  takes_value: true
+
+        - custom-resolvers:
+                  help: Path to a file (or files) containing a list of DNS IP address. If no specified then 1.6k of built-in valid DNS servers from public-dns.info are used.
+                  long: resolvers
+                  takes_value: true
+                  multiple: true
+
+        - initial-port:
+                  help: Initial port to scan. Default 0.
+                  long: iport
+                  takes_value: true
+                  multiple: false
+
+        - last-port:
+                  help: Last port to scan. Default 1000.
+                  long: lport
+                  takes_value: true
+                  multiple: false
+
+        - min-rate:
+                  help: Nmap --min-rate value for ports scan.
+                  long: min-rate
+                  takes_value: true
+
+        - fast-scan:
+                  help: Use fast scanning for ports (no version detection).
+                  long: fast-scan
+                  takes_value: false
+
+        - logs-dir:
+                  help: Path to save the subdomains HTML data.
+                  long: logs-dir
+                  takes_value: true
+                  multiple: false

@@ -1,0 +1,37 @@
+[package]
+name = "unimap"
+version = "0.1.0"
+authors = ["Eduard Tolosa <edu4rdshl@protonmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+trust-dns-resolver = "0.19.5"
+rayon = "1.4.0"
+log = { version = "0.4.11", features = ["std"] }
+colored = { version = "1.9.3", optional = true }
+rand = "0.7.3"
+lazy_static = "1.4.0"
+serde = { version = "1.0.114", features = ["derive"] }
+serde_derive = "1.0.114"
+prettytable-rs = "0.8.0"
+serde-xml-rs = "0.4.0"
+webpage = "1.1.0"
+chrono = "0.4.15"
+clap = { version = "2.33.1", features = ["yaml"] }
+config = { version = "0.10.1", features = ["yaml", "json", "toml", "hjson", "ini"] }
+failure = "0.1.8"
+
+[target.arm-unknown-linux-gnueabihf.dependencies]
+openssl = { version = "0.10.30", features = ["vendored"] }
+
+[target.aarch64-unknown-linux-gnu.dependencies]
+openssl = { version = "0.10.30", features = ["vendored"] }
+
+[target.armv7-unknown-linux-gnueabihf.dependencies]
+openssl = { version = "0.10.30", features = ["vendored"] }
+
+[target.'cfg(windows)'.dependencies]
+atty = "0.2.14"
+winapi = { version = "0.3.9", features = ["handleapi", "winbase"] }
