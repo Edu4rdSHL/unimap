@@ -51,5 +51,12 @@ to install from Github.
 2. `$ sudo unimap -f targets.txt --fast-scan -o` performs an fast scan and save the logfile to logs/ folder.
 3. `$ sudo unimap -f targets.txt --iport 1 --lport 1000 --min-rate 1000` scan ports from 1-1000 doing service and versions detection (if you want a fast scan use the --fast-scan flag) with an min-rate of 1000.
 
+# Considerations
+
+* Unimap is preconfigured to run on faster networks (cloud VPS), if you run a scan in a home network that doesn't have too much capacity you will end up disconnected from network.
+* The previously doesn't mean you can not use Unimap from your homw, just adjust the number of `--threads` and `--min-rate` (being it the most important).
+* We do not wrap Nmap in any way, we use the right Nmap options to get the most performance, Nmap rocks and it's the faster ports scanner that currently exists.
+* We parse Nmap output data and give you more understandable output while also preventing you to scan the same IP several times, **it's our main goal** .
+
 # Found a bug?
 Open an [issue](https://github.com/Edu4rdSHL/unimap).
