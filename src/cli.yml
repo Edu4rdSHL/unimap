@@ -3,7 +3,7 @@ author: Eduard Tolosa <edu4rdshl@protonmail.com>
 settings:
         - ArgRequiredElseHelp
         - StrictUtf8
-about: Scan only once by IP address.
+about: Scan only once by IP address and reduce scan times with Nmap for large amounts of data.
 args:
         - target:
                   short: t
