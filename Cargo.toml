@@ -3,6 +3,11 @@ name = "unimap"
 version = "0.1.0"
 authors = ["Eduard Tolosa <edu4rdshl@protonmail.com>"]
 edition = "2018"
+description = "Scan only once by IP address and reduce scan times with Nmap for large amounts of data."
+repository = "https://github.com/edu4rdshl/unimap"
+license = "GPL-3.0-or-later"
+keywords = ["nmap", "scanning", "ip-scan", "scanner", "open-ports"]
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
