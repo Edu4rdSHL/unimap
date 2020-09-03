@@ -1,5 +1,5 @@
 # Unimap
-Scan only once by IP address and reduce scan times with Nmap for large amounts of data. Unimap is an abbreviation of "Unique Nmap *Scan*".
+Scan only once by IP address and reduce scan times with Nmap for large amounts of data. Unimap is an abbreviation of "Unique Nmap *Scan*". The tool can run in Linux, OSX, Windows or Android (Termux) without problems.
 
 # Why?
 If you have plans to run an Nmap to a whole organization you need to consideer that surely tens, hundreds or even thousands of subdomains will point to the same IP address and there will come a point where it becomes almost impossible to continue scanning. Also your IP may end up blocked due to multiple scans to the same remote host address among other things.
@@ -9,7 +9,7 @@ Unimap uses its own technology to initially resolve the IP addresses of all subd
 
 # Installation
 
-You need to have Rust installed, then run:
+You need to have Rust and Nmap installed in your computer, then run:
 
 * `cargo install unimap` to install from [crates.io](https://crates.io).
 * or
