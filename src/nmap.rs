@@ -116,7 +116,7 @@ pub fn get_nmap_data(
     last_port: usize,
     fast_scan: bool,
 ) -> Result<Nmaprun, serde_xml_rs::Error> {
-    let _ports_range = format!("{}-{}", initial_port, last_port);
+    let ports_range = format!("{}-{}", initial_port, last_port);
     let min_rate = min_rate.to_string();
     let nmap_args = if fast_scan {
         vec![
@@ -152,7 +152,8 @@ pub fn get_nmap_data(
             "--min-rate",
             &min_rate,
             "-sS",
-            "-p-",
+            "-p",
+            &ports_range,
             "--open",
             "-dd",
             "-T4",
@@ -163,12 +164,12 @@ pub fn get_nmap_data(
             host,
         ]
     };
-    match Command::new("sudo").args(&nmap_args).output() {
+    match Command::new("nmap").args(&nmap_args).output() {
         Ok(_) => {
             if Path::new(&filename).exists() && Path::new(&filename).is_file() {
                 serde_xml_rs::from_str(&std::fs::read_to_string(filename).unwrap_or_default())
             } else {
-                error!("Error executing nmap, you need root permissions. Leaving.\n");
+                error!("Error executing nmap, possible causes: Nmap is not installed or you need root/administrator permissions. Leaving.\n");
                 std::process::exit(1)
             }
         }
