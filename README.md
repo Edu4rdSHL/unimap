@@ -14,15 +14,16 @@ You need to have Rust and Nmap installed in your computer, then run:
 * `cargo install unimap` to install from [crates.io](https://crates.io).
 * or
 ```
-$ git clone https://github.com/Edu4rdSHL/unimap.git && cd unimap
-$ cargo build --release
-$ sudo ./target/release/unimap
+1. git clone https://github.com/Edu4rdSHL/unimap.git && cd unimap
+# Alternatively you can download a release from https://github.com/Edu4rdSHL/unimap/releases/latest
+# extract it and continue to next step.
+2. cargo build --release
+# Now the binary is in ./target/release/unimap
 ```
-to install from Github.
 
 # Usage
 
-**Unimap requires root permissions to launch [Nmap TCP SYN (Stealth) Scan](https://nmap.org/book/synscan.html), we use it for accuracy and performance reasons.** See the [nmap.rs](https://github.com/Edu4rdSHL/unimap/blob/43b878e0d1ae74dc44d0ec51ce16a23fc6896a61/src/nmap.rs#L166) module.
+**Unimap requires root/administrator privileges to launch [Nmap TCP SYN (Stealth) Scan](https://nmap.org/book/synscan.html), we use it for accuracy and performance reasons.** If you are on Linux or Linux-based, just use a root shell or run the tool with sudo, in Windows you can open a Command Prompt (CMD) as Administrator and run the tool as usual.
 
 * Flags doesn't require/accept values.
 
@@ -47,9 +48,9 @@ to install from Github.
 
 # Examples
 
-1. `$ sudo unimap -f targets.txt -u log.csv` performs an full scan and write output to log.csv.
-2. `$ sudo unimap -f targets.txt --fast-scan -o` performs an fast scan and save the logfile to logs/ folder.
-3. `$ sudo unimap -f targets.txt --iport 1 --lport 1000 --min-rate 1000` scan ports from 1-1000 doing service and versions detection (if you want a fast scan use the --fast-scan flag) with an min-rate of 1000.
+1. `unimap -f targets.txt -u log.csv` performs an full scan and write output to log.csv.
+2. `unimap -f targets.txt --fast-scan -o` performs an fast scan and save the logfile to logs/ folder.
+3. `sudo unimap -f targets.txt --iport 1 --lport 1000 --min-rate 1000` scan ports from 1-1000 doing service and versions detection (if you want a fast scan use the --fast-scan flag) with an min-rate of 1000.
 
 # Considerations
 
