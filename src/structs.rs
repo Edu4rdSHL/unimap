@@ -19,6 +19,7 @@ pub struct Args {
     pub quiet_flag: bool,
     pub custom_resolvers: bool,
     pub custom_ports_range: bool,
+    pub keep_nmap_logs: bool,
     pub fast_scan: bool,
     pub files: Vec<String>,
     pub resolvers: Vec<String>,

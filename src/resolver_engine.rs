@@ -190,12 +190,9 @@ fn async_resolver_engine(args: &Args, targets: HashSet<String>) -> HashMap<Strin
                         .unwrap_or_default()
                         .port
                         .retain(|f| f.state.state == "open");
-                    match std::fs::remove_file(&filename) {
-                        Ok(_) => (),
-                        Err(e) => {
-                            error!("Error removing filename {}. Description: {}", &filename, e)
-                        }
-                    };
+                    if !args.keep_nmap_logs && std::fs::remove_file(&filename).is_err() {
+                        error!("Error removing filename {}.", &filename)
+                    }
                     (ip.clone(), nmap_data)
                 }
                 Err(e) => {
