@@ -48,13 +48,7 @@ lazy_static! {
 }
 
 pub fn async_resolver_all(args: &mut Args) -> Result<()> {
-    if args.with_output && !args.unique_output_flag && !files::check_full_path(&args.logs_dir) {
-        error!(
-            "Error creating the logs folder in the path {}. Leaving...",
-            &args.logs_dir
-        );
-        std::process::exit(1)
-    }
+    files::check_full_path(&args.logs_dir);
 
     if !args.quiet_flag {
         info!(
@@ -172,7 +166,7 @@ fn async_resolver_engine(args: &Args, targets: HashSet<String>) -> HashMap<Strin
     let nmap_data: HashMap<String, Nmaprun> = nmap_ips
         .par_iter()
         .map(|ip| {
-            let filename = format!("{}.xml", &ip);
+            let filename = format!("{}/{}.xml", &args.logs_dir, &ip);
             match nmap::get_nmap_data(
                 &filename,
                 &ip,

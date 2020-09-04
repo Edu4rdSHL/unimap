@@ -78,7 +78,7 @@ args:
                   takes_value: false
 
         - logs-dir:
-                  help: Path to save the CSV data of the process. Default to logs/ when using -o.
+                  help: Path to save the CSV data of the process and/or Nmap XML files. Default to logs/.
                   long: logs-dir
                   takes_value: true
                   multiple: false
