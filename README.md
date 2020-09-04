@@ -31,6 +31,7 @@ You need to have Rust and Nmap installed in your computer, then run:
 |-----------|------------|
 |--fast-scan|Use fast scanning for ports (no version detection) and just scan the top 1000 ports.|
 |-o, --output| Write to an output file. The name of the output file will be unimap-log-$date.|
+|-k, --keep-nmap-logs| Keep Nmap XML files created in the logs/ folder for every scanned IP. This data will be useful for other tasks.|
 
 * Options require values.
 
