@@ -21,6 +21,20 @@ You need to have Rust and Nmap installed in your computer, then run:
 # Now the binary is in ./target/release/unimap
 ```
 
+## Using the AUR packages. (Arch Linux)
+
+`unimap` can be installed from available [AUR packages](https://aur.archlinux.org/packages/?O=0&SeB=b&K=unimap&outdated=&SB=n&SO=a&PP=50&do_Search=Go) using an [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers). For example,
+
+```
+yay -S unimap
+```
+
+If you prefer, you can clone the [AUR packages](https://aur.archlinux.org/packages/?O=0&SeB=b&K=unimap&outdated=&SB=n&SO=a&PP=50&do_Search=Go) and then compile them with [makepkg](https://wiki.archlinux.org/index.php/Makepkg). For example,
+
+```
+git clone https://aur.archlinux.org/unimap.git && cd unimap && makepkg -si
+```
+
 # Usage
 
 **Unimap requires root/administrator privileges to launch [Nmap TCP SYN (Stealth) Scan](https://nmap.org/book/synscan.html), we use it for accuracy and performance reasons.** If you are on Linux or Linux-based, just use a root shell or run the tool with sudo, in Windows you can open a Command Prompt (CMD) as Administrator and run the tool as usual.
