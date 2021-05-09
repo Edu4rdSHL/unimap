@@ -1,5 +1,3 @@
-use lazy_static;
-
 lazy_static! {
     static ref SPECIAL_CHARS: Vec<char> = vec![
         '[', ']', '{', '}', '(', ')', '*', '|', ':', '<', '>', '/', '\\', '%', '&', '¿', '?', '¡',
@@ -22,6 +20,7 @@ pub fn null_ip_checker(ip: &str) -> String {
     }
 }
 
+#[allow(clippy::ptr_arg)]
 pub fn return_ports_string(ports: &Vec<String>) -> String {
     if ports.is_empty() {
         String::from("NULL")
