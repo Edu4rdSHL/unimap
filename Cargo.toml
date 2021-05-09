@@ -1,6 +1,6 @@
 [package]
 name = "unimap"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Eduard Tolosa <edu4rdshl@protonmail.com>"]
 edition = "2018"
 description = "Scan only once by IP address and reduce scan times with Nmap for large amounts of data."
