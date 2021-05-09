@@ -111,65 +111,47 @@ pub struct Service {
 pub fn get_nmap_data(
     filename: &str,
     host: &str,
-    min_rate: usize,
-    initial_port: usize,
-    last_port: usize,
+    min_rate: &str,
+    ports: &str,
     fast_scan: bool,
 ) -> Result<Nmaprun, serde_xml_rs::Error> {
-    let ports_range = format!("{}-{}", initial_port, last_port);
     let min_rate = min_rate.to_string();
-    let nmap_args = if fast_scan {
-        vec![
-            "nmap",
-            "-n",
-            "--dns-servers",
-            &NMAP_DNS_RESOLVERS,
-            "-Pn",
-            "--host-timeout",
-            "5m",
-            "--min-rate",
-            &min_rate,
-            "-sS",
-            "--open",
-            "-dd",
-            "-T4",
-            "--max-retries",
-            "2",
-            "-oX",
-            filename,
-            host,
-        ]
-    } else {
-        vec![
-            "nmap",
-            "-n",
-            "--dns-servers",
-            &NMAP_DNS_RESOLVERS,
-            "-Pn",
-            "--host-timeout",
-            "10m",
-            "-sV",
-            "--min-rate",
-            &min_rate,
-            "-sS",
-            "-p",
-            &ports_range,
-            "--open",
-            "-dd",
-            "-T4",
-            "--max-retries",
-            "2",
-            "-oX",
-            filename,
-            host,
-        ]
-    };
+    let mut nmap_args = vec![
+        "nmap",
+        "--dns-servers",
+        &NMAP_DNS_RESOLVERS,
+        "-Pn",
+        "-sS",
+        "--open",
+        "-dd",
+        "-T4",
+        "--max-retries",
+        "3",
+        "-oX",
+        filename,
+    ];
+
+    if !min_rate.is_empty() {
+        nmap_args.append(&mut vec!["--min-rate", &min_rate])
+    }
+
+    if fast_scan {
+        nmap_args.append(&mut vec!["--host-timeout", "20m"])
+    }
+
+    if !ports.is_empty() {
+        nmap_args.append(&mut vec!["-p", &ports])
+    }
+
+    nmap_args.push(host);
+
     match Command::new("nmap").args(&nmap_args).output() {
         Ok(_) => {
             if Path::new(&filename).exists() && Path::new(&filename).is_file() {
                 serde_xml_rs::from_str(&std::fs::read_to_string(filename).unwrap_or_default())
             } else {
                 error!("Error executing nmap, possible causes: Nmap is not installed or you need root/administrator permissions. Leaving.\n");
+                println!();
                 std::process::exit(1)
             }
         }

@@ -50,8 +50,7 @@ pub fn get_args() -> Args {
             value_t!(matches, "threads", usize).unwrap_or_else(|_| 50)
         },
         version: clap::crate_version!().to_string(),
-        initial_port: value_t!(matches, "initial-port", usize).unwrap_or_else(|_| 1),
-        last_port: value_t!(matches, "last-port", usize).unwrap_or_else(|_| 65535),
+        ports: value_t!(matches, "ports", String).unwrap_or_else(|_| String::new()),
         with_output: matches.is_present("output") || matches.is_present("unique-output"),
         unique_output_flag: matches.is_present("unique-output"),
         from_file_flag: matches.is_present("files"),
@@ -61,7 +60,7 @@ pub fn get_args() -> Args {
         fast_scan: matches.is_present("fast-scan"),
         keep_nmap_logs: matches.is_present("keep-nmap-logs"),
         files: return_matches_vec(&matches, "files"),
-        min_rate: value_t!(matches, "min-rate", usize).unwrap_or_else(|_| 30000),
+        min_rate: value_t!(matches, "min-rate", String).unwrap_or_else(|_| String::new()),
         resolvers: if matches.is_present("custom-resolvers") {
             return_matches_vec(&matches, "custom-resolvers")
         } else {

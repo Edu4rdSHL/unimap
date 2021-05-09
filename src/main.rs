@@ -28,7 +28,7 @@ fn run() -> Result<()> {
         .unwrap();
 
     if !arguments.target.is_empty() || !arguments.files.is_empty() {
-        resolver_engine::async_resolver_all(&mut arguments)
+        resolver_engine::parallel_resolver_all(&mut arguments)
     } else {
         error!("Error: Target is empty or invalid!\n");
         std::process::exit(1)

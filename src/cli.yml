@@ -55,15 +55,9 @@ args:
                   takes_value: true
                   multiple: true
 
-        - initial-port:
-                  help: Initial port to scan. Default 0.
-                  long: iport
-                  takes_value: true
-                  multiple: false
-
-        - last-port:
-                  help: Last port to scan. Default 1000.
-                  long: lport
+        - ports:
+                  help: 'Ports to scan. You can specify a range of ports, a list, or both. Put them inside double quotes, for example: "22, 80, 443, 1000-5000"'
+                  long: ports
                   takes_value: true
                   multiple: false
 

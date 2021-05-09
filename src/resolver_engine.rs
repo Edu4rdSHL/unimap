@@ -15,7 +15,7 @@ use {
         net::Ipv4Addr,
         time::Duration,
     },
-    trust_dns_resolver::{config::ResolverOpts, proto::rr::RecordType},
+    trust_dns_resolver::config::ResolverOpts,
 };
 
 lazy_static! {
@@ -47,17 +47,17 @@ lazy_static! {
     };
 }
 
-pub fn async_resolver_all(args: &mut Args) -> Result<()> {
+pub fn parallel_resolver_all(args: &mut Args) -> Result<()> {
     files::check_full_path(&args.logs_dir);
 
     if !args.quiet_flag {
         info!(
-            "Performing asynchronous resolution for {} targets with {} threads, it will take a while...\n",
+            "Performing parallel resolution for {} targets with {} threads, it will take a while...\n",
             args.targets.len(), args.threads
         )
     }
 
-    let data = async_resolver_engine(&args, args.targets.clone());
+    let data = parallel_resolver_engine(&args, args.targets.clone());
 
     let mut table = Table::new();
     table.set_titles(row![
@@ -111,47 +111,44 @@ pub fn async_resolver_all(args: &mut Args) -> Result<()> {
         }
     }
 
-    if args.with_output && !args.targets.is_empty() {
-        if files::table_to_file(&table, files::return_output_file(&args)).is_err()
-            && !args.quiet_flag
-        {
-            error!(
-                "An error occurred while writing the output file {}.\n",
-                args.file_name
-            )
-        }
+    if args.with_output
+        && !args.targets.is_empty()
+        && files::table_to_file(&table, files::return_output_file(&args)).is_err()
+        && !args.quiet_flag
+    {
+        error!(
+            "An error occurred while writing the output file {}.\n",
+            args.file_name
+        )
     }
     if !args.quiet_flag {
         table.printstd();
     }
 
-    if ((args.with_output && !args.unique_output_flag) || args.unique_output_flag)
-        && !args.quiet_flag
-    {
+    if (args.with_output || args.unique_output_flag) && !args.quiet_flag {
         info!(
             "Job finished in {} seconds.\n",
             args.time_wasted.elapsed().as_secs()
         );
         info!("Logfile saved in {}\n\n", args.file_name);
     }
-
+    println!();
     Ok(())
 }
 
-fn async_resolver_engine(args: &Args, targets: HashSet<String>) -> HashMap<String, ResolvData> {
-    let mut opts = ResolverOpts::default();
-    opts.timeout = Duration::from_secs(2);
+fn parallel_resolver_engine(args: &Args, targets: HashSet<String>) -> HashMap<String, ResolvData> {
+    let opts = ResolverOpts {
+        timeout: Duration::from_secs(2),
+        ..Default::default()
+    };
 
     let resolv_data: HashMap<String, ResolvData> = targets
         .par_iter()
         .map(|target| {
             let fqdn_target = format!("{}.", target);
             let mut resolv_data = ResolvData::default();
-            resolv_data.ip = networking::get_records(
-                &networking::get_resolver(&RESOLVERS, &opts),
-                &fqdn_target,
-                RecordType::A,
-            );
+            resolv_data.ip =
+                networking::get_records(&networking::get_resolver(&RESOLVERS, &opts), &fqdn_target);
             (target.to_owned(), resolv_data)
         })
         .collect();
@@ -167,14 +164,7 @@ fn async_resolver_engine(args: &Args, targets: HashSet<String>) -> HashMap<Strin
         .par_iter()
         .map(|ip| {
             let filename = format!("{}/{}.xml", &args.logs_dir, &ip);
-            match nmap::get_nmap_data(
-                &filename,
-                &ip,
-                args.min_rate,
-                args.initial_port,
-                args.last_port,
-                args.fast_scan,
-            ) {
+            match nmap::get_nmap_data(&filename, &ip, &args.min_rate, &args.ports, args.fast_scan) {
                 Ok(nmap_data) => {
                     nmap_data
                         .host
