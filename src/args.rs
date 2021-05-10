@@ -58,7 +58,8 @@ pub fn get_args() -> Args {
         custom_resolvers: matches.is_present("custom-resolvers"),
         custom_ports_range: matches.is_present("initial-port") || matches.is_present("last-port"),
         fast_scan: matches.is_present("fast-scan"),
-        keep_nmap_logs: matches.is_present("keep-nmap-logs"),
+        no_keep_nmap_logs: matches.is_present("no-keep-nmap-logs"),
+        raw_output: matches.is_present("raw-output"),
         files: return_matches_vec(&matches, "files"),
         min_rate: value_t!(matches, "min-rate", String).unwrap_or_else(|_| String::new()),
         resolvers: if matches.is_present("custom-resolvers") {

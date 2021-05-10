@@ -68,46 +68,52 @@ pub fn parallel_resolver_all(args: &mut Args) -> Result<()> {
     ]);
     for (target, resolv_data) in &data {
         if !resolv_data.ip.is_empty() {
-            let mut services_table = Table::new();
-            for port_data in &resolv_data.ports_data {
-                services_table
-                    .add_row(row![bc => &format!("PORT => {}", port_data.portid.clone())]);
-                services_table.add_row(
+            if args.raw_output {
+                for port_data in &resolv_data.ports_data {
+                    println!("{},{},{}", target, resolv_data.ip, port_data.portid)
+                }
+            } else {
+                let mut services_table = Table::new();
+                for port_data in &resolv_data.ports_data {
+                    services_table
+                        .add_row(row![bc => &format!("PORT => {}", port_data.portid.clone())]);
+                    services_table.add_row(
                     row![c => &format!("SERVICE: {}", port_data.service.clone().unwrap_or_default().name)],
                 );
-                services_table.add_row(row![c => &format!("VERSION: {}" ,port_data
+                    services_table.add_row(row![c => &format!("VERSION: {}" ,port_data
                 .service.clone().unwrap_or_default()
                 .version
                 .clone()
                 .unwrap_or_else(|| "NULL".to_string()))]);
-                services_table.add_row(row![c => &format!("PRODUCT: {}", port_data
+                    services_table.add_row(row![c => &format!("PRODUCT: {}", port_data
                     .service.clone().unwrap_or_default()
                     .product
                     .clone()
                     .unwrap_or_else(|| "NULL".to_string()))]);
-                services_table.add_row(row![c => &format!("OS TYPE: {}", port_data
+                    services_table.add_row(row![c => &format!("OS TYPE: {}", port_data
                     .service.clone().unwrap_or_default()
                     .ostype
                     .clone()
                     .unwrap_or_else(|| "NULL".to_string()))]);
-                services_table.add_row(row![c => &format!("EXTRA INFO: {}", port_data
+                    services_table.add_row(row![c => &format!("EXTRA INFO: {}", port_data
                     .service.clone().unwrap_or_default()
                     .extrainfo
                     .clone()
                     .unwrap_or_else(|| "NULL".to_string()))]);
+                }
+                table.add_row(row![ d =>
+                    target,
+                    logic::null_ip_checker(&resolv_data.ip),
+                    logic::return_ports_string(
+                        &resolv_data
+                            .ports_data
+                            .iter()
+                            .map(|f| f.portid.clone())
+                            .collect(),
+                    ),
+                    services_table,
+                ]);
             }
-            table.add_row(row![ d =>
-                target,
-                logic::null_ip_checker(&resolv_data.ip),
-                logic::return_ports_string(
-                    &resolv_data
-                        .ports_data
-                        .iter()
-                        .map(|f| f.portid.clone())
-                        .collect(),
-                ),
-                services_table,
-            ]);
         }
     }
 
@@ -121,7 +127,7 @@ pub fn parallel_resolver_all(args: &mut Args) -> Result<()> {
             args.file_name
         )
     }
-    if !args.quiet_flag {
+    if !args.quiet_flag && !args.raw_output {
         table.printstd();
     }
 
@@ -132,7 +138,9 @@ pub fn parallel_resolver_all(args: &mut Args) -> Result<()> {
         );
         info!("Logfile saved in {}\n\n", args.file_name);
     }
-    println!();
+    if !args.quiet_flag {
+        println!();
+    }
     Ok(())
 }
 
@@ -174,7 +182,7 @@ fn parallel_resolver_engine(args: &Args, targets: HashSet<String>) -> HashMap<St
                         .unwrap_or_default()
                         .port
                         .retain(|f| f.state.state == "open");
-                    if !args.keep_nmap_logs && std::fs::remove_file(&filename).is_err() {
+                    if args.no_keep_nmap_logs && std::fs::remove_file(&filename).is_err() {
                         error!("Error removing filename {}.", &filename)
                     }
                     (ip.clone(), nmap_data)

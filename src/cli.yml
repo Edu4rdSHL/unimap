@@ -77,9 +77,16 @@ args:
                   takes_value: true
                   multiple: false
 
-        - keep-nmap-logs:
+        - no-keep-nmap-logs:
                   help: Keep Nmap XML files created in the logs/ folder for every scanned IP. This data will be useful for other tasks.
                   short: k
-                  long: keep-nmap-logs
+                  long: no-keep-nmap-logs
+                  takes_value: false
+                  multiple: false
+
+        - raw-output:
+                  help: Use raw output instead of a table.
+                  short: r
+                  long: raw-output
                   takes_value: false
                   multiple: false
