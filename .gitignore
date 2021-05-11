@@ -1,3 +1,4 @@
 /target
 /logs
 *.txt
+/unimap_logs
