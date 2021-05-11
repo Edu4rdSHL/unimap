@@ -21,6 +21,7 @@ pub struct Args {
     pub no_keep_nmap_logs: bool,
     pub raw_output: bool,
     pub fast_scan: bool,
+    pub url_output: bool,
     pub files: Vec<String>,
     pub resolvers: Vec<String>,
     pub targets: HashSet<String>,

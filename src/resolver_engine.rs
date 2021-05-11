@@ -66,11 +66,53 @@ pub fn parallel_resolver_all(args: &mut Args) -> Result<()> {
        "OPEN PORTS",
        "SERVICES"
     ]);
+    if args.raw_output && !args.quiet_flag {
+        println!("HOST,IP,PORT,SERVICE,VERSION,PRODUCT,OS,EXTRAINFO")
+    } else if args.url_output && !args.quiet_flag {
+        println!("HOST:IP")
+    }
     for (target, resolv_data) in &data {
         if !resolv_data.ip.is_empty() {
             if args.raw_output {
                 for port_data in &resolv_data.ports_data {
-                    println!("{},{},{}", target, resolv_data.ip, port_data.portid)
+                    println!(
+                        "{},{},{},{},{},{},{},{}",
+                        target,
+                        resolv_data.ip,
+                        port_data.portid,
+                        port_data.service.clone().unwrap_or_default().name,
+                        port_data
+                            .clone()
+                            .service
+                            .unwrap_or_default()
+                            .version
+                            .unwrap_or_else(|| "NULL".to_string()),
+                        port_data
+                            .clone()
+                            .service
+                            .clone()
+                            .unwrap_or_default()
+                            .product
+                            .unwrap_or_else(|| "NULL".to_string()),
+                        port_data
+                            .service
+                            .clone()
+                            .unwrap_or_default()
+                            .ostype
+                            .clone()
+                            .unwrap_or_else(|| "NULL".to_string()),
+                        port_data
+                            .service
+                            .clone()
+                            .unwrap_or_default()
+                            .extrainfo
+                            .clone()
+                            .unwrap_or_else(|| "NULL".to_string())
+                    )
+                }
+            } else if args.url_output {
+                for port_data in &resolv_data.ports_data {
+                    println!("{}:{}", target, port_data.portid)
                 }
             } else {
                 let mut services_table = Table::new();
@@ -127,7 +169,7 @@ pub fn parallel_resolver_all(args: &mut Args) -> Result<()> {
             args.file_name
         )
     }
-    if !args.quiet_flag && !args.raw_output {
+    if !args.quiet_flag && !args.raw_output && !args.url_output {
         table.printstd();
     }
 

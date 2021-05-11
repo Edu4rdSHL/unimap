@@ -90,3 +90,13 @@ args:
                   long: raw-output
                   takes_value: false
                   multiple: false
+                  conflicts_with:
+                          - url-output
+
+        - url-output:
+                  help: Use HOST:IP output format.
+                  long: url-output
+                  takes_value: false
+                  multiple: false
+                  conflicts_with:
+                          - raw-output
