@@ -11,11 +11,11 @@ pub mod args;
 pub mod errors;
 pub mod files;
 pub mod logger;
+pub mod misc;
 pub mod resolver_engine;
 
 mod defaults;
 mod logic;
-mod misc;
 mod networking;
 mod nmap;
 mod structs;

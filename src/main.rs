@@ -1,7 +1,7 @@
 use {
     log::{error, Level},
     std::{collections::HashSet, iter::FromIterator},
-    unimap::{args, errors::*, files::return_file_targets, logger, resolver_engine},
+    unimap::{args, errors::*, files::return_file_targets, logger, misc, resolver_engine},
 };
 
 fn run() -> Result<()> {
@@ -14,8 +14,10 @@ fn run() -> Result<()> {
     if !arguments.files.is_empty() {
         arguments.targets =
             HashSet::from_iter(return_file_targets(&arguments, arguments.files.clone()))
-    } else {
+    } else if !arguments.target.is_empty() {
         arguments.targets.insert(arguments.target.clone());
+    } else {
+        arguments.targets = misc::read_stdin()
     }
 
     if arguments.targets.len() < 50 {
@@ -27,7 +29,7 @@ fn run() -> Result<()> {
         .build_global()
         .unwrap();
 
-    if !arguments.target.is_empty() || !arguments.files.is_empty() {
+    if !arguments.targets.is_empty() {
         resolver_engine::parallel_resolver_all(&mut arguments)
     } else {
         error!("Error: Target is empty or invalid!\n");

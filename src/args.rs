@@ -58,6 +58,7 @@ pub fn get_args() -> Args {
         no_keep_nmap_logs: matches.is_present("no-keep-nmap-logs"),
         raw_output: matches.is_present("raw-output"),
         url_output: matches.is_present("url-output"),
+        from_stdin: matches.is_present("stdin"),
         files: return_matches_vec(&matches, "files"),
         min_rate: value_t!(matches, "min-rate", String).unwrap_or_else(|_| String::new()),
         resolvers: if matches.is_present("custom-resolvers") {

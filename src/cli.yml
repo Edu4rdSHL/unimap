@@ -13,6 +13,7 @@ args:
                   multiple: false
                   conflicts_with:
                           - files
+                          - stdin
 
         - files:
                   short: f
@@ -22,6 +23,7 @@ args:
                   multiple: true
                   conflicts_with:
                           - target
+                          - stdin
 
         - output:
                   short: o
@@ -100,3 +102,12 @@ args:
                   multiple: false
                   conflicts_with:
                           - raw-output
+
+        - stdin:
+                  help: Read from stdin instead of files or aguments.
+                  long: stdin
+                  takes_value: false
+                  multiple: false
+                  conflicts_with:
+                          - files
+                          - target

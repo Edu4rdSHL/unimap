@@ -22,6 +22,7 @@ pub struct Args {
     pub raw_output: bool,
     pub fast_scan: bool,
     pub url_output: bool,
+    pub from_stdin: bool,
     pub files: Vec<String>,
     pub resolvers: Vec<String>,
     pub targets: HashSet<String>,

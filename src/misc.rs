@@ -1,4 +1,7 @@
-use std::collections::HashSet;
+use std::{
+    collections::HashSet,
+    io::{self, Read},
+};
 
 pub fn sanitize_target_string(target: String) -> String {
     target
@@ -31,4 +34,13 @@ pub fn return_matches_hashset(matches: &clap::ArgMatches, value: &str) -> HashSe
     } else {
         HashSet::new()
     }
+}
+
+pub fn read_stdin() -> HashSet<String> {
+    let mut buffer = String::new();
+    let mut stdin = io::stdin();
+    stdin
+        .read_to_string(&mut buffer)
+        .expect("Error getting input list.");
+    buffer.lines().map(str::to_owned).collect()
 }
