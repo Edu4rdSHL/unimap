@@ -137,6 +137,8 @@ pub fn get_nmap_data(
 
     if fast_scan {
         nmap_args.append(&mut vec!["--host-timeout", "20m"])
+    } else {
+        nmap_args.append(&mut vec!["-sV"])
     }
 
     if !ports.is_empty() {
