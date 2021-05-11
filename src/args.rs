@@ -29,7 +29,7 @@ pub fn get_args() -> Args {
             }
         },
         file_name: if matches.is_present("output") {
-            value_t!(matches, "logs-dir", String).unwrap_or_else(|_| "logs".to_string())
+            value_t!(matches, "logs-dir", String).unwrap_or_else(|_| "unimap_logs".to_string())
                 + "/"
                 + "unimap"
                 + &Utc::now().format("-log-%Y-%m-%d_%H-%M-%S").to_string()
@@ -39,12 +39,9 @@ pub fn get_args() -> Args {
         } else {
             String::new()
         },
-        logs_dir: value_t!(matches, "logs-dir", String).unwrap_or_else(|_| "logs".to_string()),
-        threads: if (matches.is_present("port-scan")
-            || matches.is_present("initial-port")
-            || matches.is_present("last-port"))
-            && !matches.is_present("threads")
-        {
+        logs_dir: value_t!(matches, "logs-dir", String)
+            .unwrap_or_else(|_| "unimap_logs".to_string()),
+        threads: if matches.is_present("ports") && !matches.is_present("threads") {
             30
         } else {
             value_t!(matches, "threads", usize).unwrap_or_else(|_| 50)
@@ -56,7 +53,7 @@ pub fn get_args() -> Args {
         from_file_flag: matches.is_present("files"),
         quiet_flag: matches.is_present("quiet"),
         custom_resolvers: matches.is_present("custom-resolvers"),
-        custom_ports_range: matches.is_present("initial-port") || matches.is_present("last-port"),
+        custom_ports_range: matches.is_present("ports"),
         fast_scan: matches.is_present("fast-scan"),
         no_keep_nmap_logs: matches.is_present("no-keep-nmap-logs"),
         raw_output: matches.is_present("raw-output"),
