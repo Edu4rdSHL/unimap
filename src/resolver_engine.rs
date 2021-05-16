@@ -15,7 +15,10 @@ use {
         net::Ipv4Addr,
         time::Duration,
     },
-    trust_dns_resolver::config::ResolverOpts,
+    trust_dns_resolver::{
+        config::{LookupIpStrategy, ResolverOpts},
+        Resolver,
+    },
 };
 
 lazy_static! {
@@ -57,7 +60,16 @@ pub fn parallel_resolver_all(args: &mut Args) -> Result<()> {
         )
     }
 
-    let data = parallel_resolver_engine(&args, args.targets.clone());
+    let opts = ResolverOpts {
+        timeout: Duration::from_secs(1),
+        ip_strategy: LookupIpStrategy::Ipv4Only,
+        num_concurrent_reqs: 1,
+        ..Default::default()
+    };
+
+    let resolver = networking::get_resolver(networking::return_socket_address(args), opts);
+
+    let data = parallel_resolver_engine(&args, args.targets.clone(), resolver);
 
     let mut table = Table::new();
     table.set_titles(row![
@@ -186,19 +198,17 @@ pub fn parallel_resolver_all(args: &mut Args) -> Result<()> {
     Ok(())
 }
 
-fn parallel_resolver_engine(args: &Args, targets: HashSet<String>) -> HashMap<String, ResolvData> {
-    let opts = ResolverOpts {
-        timeout: Duration::from_secs(2),
-        ..Default::default()
-    };
-
+fn parallel_resolver_engine(
+    args: &Args,
+    targets: HashSet<String>,
+    resolver: Resolver,
+) -> HashMap<String, ResolvData> {
     let resolv_data: HashMap<String, ResolvData> = targets
         .par_iter()
         .map(|target| {
             let fqdn_target = format!("{}.", target);
             let mut resolv_data = ResolvData::default();
-            resolv_data.ip =
-                networking::get_records(&networking::get_resolver(&RESOLVERS, &opts), &fqdn_target);
+            resolv_data.ip = networking::get_records(&resolver, &fqdn_target);
             (target.to_owned(), resolv_data)
         })
         .collect();
