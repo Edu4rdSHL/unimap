@@ -1276,7 +1276,7 @@ checksum = "8ccb82d61f80a663efe1f787a51b16b5a51e3314d6ac365b08639f52387b33f3"
 
 [[package]]
 name = "unimap"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "atty",
  "chrono",
