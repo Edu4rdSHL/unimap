@@ -1198,7 +1198,7 @@ dependencies = [
 [[package]]
 name = "trust-dns-proto"
 version = "0.20.1"
-source = "git+https://github.com/Edu4rdSHL/trust-dns?branch=main#3047d95f76d26f5debd8d76e94542db4e47f68b4"
+source = "git+https://github.com/Edu4rdSHL/trust-dns?branch=main#451a00fbe3c0972adb4cdbd9d2e2f2a39a44da0e"
 dependencies = [
  "async-trait",
  "cfg-if",
@@ -1222,7 +1222,7 @@ dependencies = [
 [[package]]
 name = "trust-dns-resolver"
 version = "0.20.1"
-source = "git+https://github.com/Edu4rdSHL/trust-dns?branch=main#3047d95f76d26f5debd8d76e94542db4e47f68b4"
+source = "git+https://github.com/Edu4rdSHL/trust-dns?branch=main#451a00fbe3c0972adb4cdbd9d2e2f2a39a44da0e"
 dependencies = [
  "cfg-if",
  "futures-util",
@@ -1231,6 +1231,7 @@ dependencies = [
  "log",
  "lru-cache",
  "parking_lot",
+ "rand",
  "resolv-conf",
  "smallvec",
  "thiserror",
