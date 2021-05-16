@@ -12,7 +12,7 @@ readme = "README.md"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-trust-dns-resolver = "0.20.2"
+trust-dns-resolver = { git = "https://github.com/Edu4rdSHL/trust-dns", branch = "main" }
 rayon = "1.5.0"
 log = { version = "0.4.14", features = ["std"] }
 colored = { version = "2.0.0", optional = true }
