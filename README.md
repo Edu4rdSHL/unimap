@@ -71,7 +71,7 @@ git clone https://aur.archlinux.org/unimap.git && cd unimap && makepkg -si
 
 * Unimap is preconfigured to run on faster networks (cloud VPS), if you run a scan in a home network that doesn't have too much capacity you will end up disconnected from network.
 * The previously doesn't mean you can not use Unimap from your home, just adjust the number of `--threads` and `--min-rate` (being it the most important).
-* We do not wrap Nmap in any way or scan ports on our own, we use the right Nmap options to get the most performance, Nmap rocks and it's the faster ports scanner that currently exists.
+* We do not wrap Nmap in any way or scan ports on our own, we use the right Nmap options to get the most performance, Nmap rocks and it's the fastest port scanner that currently exists.
 * We parse Nmap output data and give you more understandable output while also preventing you to scan the same IP several times, **it's our main goal** .
 
 # Found a bug?
