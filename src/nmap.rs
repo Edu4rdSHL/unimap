@@ -142,7 +142,7 @@ pub fn get_nmap_data(
     }
 
     if !ports.is_empty() {
-        nmap_args.append(&mut vec!["-p", &ports])
+        nmap_args.append(&mut vec!["-p", ports])
     }
 
     nmap_args.push(host);

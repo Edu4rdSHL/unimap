@@ -40,7 +40,7 @@ pub fn get_resolver(nameserver_ips: HashSet<SocketAddr>, opts: ResolverOpts) -> 
 pub fn return_socket_address(args: &Args) -> HashSet<SocketAddr> {
     let mut resolver_ips = HashSet::new();
     if args.custom_resolvers {
-        for r in &files::return_file_targets(&args, args.resolvers.clone()) {
+        for r in &files::return_file_targets(args, args.resolvers.clone()) {
             let server = r.to_owned() + ":53";
             let socket_addr = SocketAddr::V4(match server.parse() {
                 Ok(a) => a,

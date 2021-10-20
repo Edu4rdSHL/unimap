@@ -69,7 +69,7 @@ pub fn parallel_resolver_all(args: &mut Args) -> Result<()> {
 
     let resolver = networking::get_resolver(networking::return_socket_address(args), opts);
 
-    let data = parallel_resolver_engine(&args, args.targets.clone(), resolver);
+    let data = parallel_resolver_engine(args, args.targets.clone(), resolver);
 
     let mut table = Table::new();
     table.set_titles(row![
@@ -173,7 +173,7 @@ pub fn parallel_resolver_all(args: &mut Args) -> Result<()> {
 
     if args.with_output
         && !args.targets.is_empty()
-        && files::table_to_file(&table, files::return_output_file(&args)).is_err()
+        && files::table_to_file(&table, files::return_output_file(args)).is_err()
         && !args.quiet_flag
     {
         error!(
@@ -224,7 +224,7 @@ fn parallel_resolver_engine(
         .par_iter()
         .map(|ip| {
             let filename = format!("{}/{}.xml", &args.logs_dir, &ip);
-            match nmap::get_nmap_data(&filename, &ip, &args.min_rate, &args.ports, args.fast_scan) {
+            match nmap::get_nmap_data(&filename, ip, &args.min_rate, &args.ports, args.fast_scan) {
                 Ok(nmap_data) => {
                     nmap_data
                         .host
