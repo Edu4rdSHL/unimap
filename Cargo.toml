@@ -39,3 +39,11 @@ openssl = { version = "0.10.34", features = ["vendored"] }
 [target.'cfg(windows)'.dependencies]
 atty = "0.2.14"
 winapi = { version = "0.3.9", features = ["handleapi", "winbase"] }
+
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = 'abort'
+incremental = false
+opt-level = "s"
