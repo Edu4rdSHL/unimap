@@ -19,6 +19,8 @@ You need to have Rust and Nmap installed in your computer, then run:
 # extract it and continue to next step.
 2. cargo build --release
 # Now the binary is in ./target/release/unimap
+3. cp ./target/release/unimap /usr/local/bin
+# copy the unimap binaries for run from everywhere
 ```
 
 ## Using precompiled binaries
