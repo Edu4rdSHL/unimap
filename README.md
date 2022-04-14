@@ -20,7 +20,7 @@ You need to have Rust and Nmap installed in your computer, then run:
 2. cargo build --release
 # Now the binary is in ./target/release/unimap
 3. cp ./target/release/unimap /usr/local/bin
-# copy the unimap binaries for run from everywhere
+# Now you can use the `unimap` command from everyewhere.
 ```
 
 ## Using precompiled binaries
