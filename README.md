@@ -21,6 +21,7 @@ You need to have Rust and Nmap installed in your computer, then run:
 # Now the binary is in ./target/release/unimap
 3. cp ./target/release/unimap /usr/local/bin
 # Now you can use the `unimap` command from everyewhere.
+# This command only suuport Linux and MacOS. Windows user need specify the target path in environment variable
 ```
 
 ## Using precompiled binaries
