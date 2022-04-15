@@ -19,9 +19,9 @@ You need to have Rust and Nmap installed in your computer, then run:
 # extract it and continue to next step.
 2. cargo build --release
 # Now the binary is in ./target/release/unimap
+# The next command only works on Linux and MacOS. Windows user need specify the target path in environment variable
 3. cp ./target/release/unimap /usr/local/bin
 # Now you can use the `unimap` command from everyewhere.
-# This command only suuport Linux and MacOS. Windows user need specify the target path in environment variable
 ```
 
 ## Using precompiled binaries
