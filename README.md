@@ -26,6 +26,19 @@ You need to have Rust and Nmap installed in your computer, then run:
 
 ## Docker support
 
+You have two options to install Findomain in a docker container.
+
+**Using Dockerhub (recommended):**
+
+```
+1. docker pull edu4rdshl/findomain:latest
+3. docker run -it --rm --name unimap unimap -t hackerone.com --fast-scan
+# Set alias in ~/.bashrc or ~/.zshrc for global use
+4. alias unimap='docker run -it --rm --name unimap unimap'
+```
+
+**Building the Docker image yourself:**
+
 ```
 1. git clone https://github.com/Edu4rdSHL/unimap.git && cd unimap
 2. docker build --tag unimap .
