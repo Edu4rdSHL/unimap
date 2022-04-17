@@ -24,6 +24,16 @@ You need to have Rust and Nmap installed in your computer, then run:
 # Now you can use the `unimap` command from everyewhere.
 ```
 
+## Docker support
+
+```
+1. git clone https://github.com/Edu4rdSHL/unimap.git && cd unimap
+2. docker build --tag unimap .
+3. docker run -it --rm --name unimap unimap -t hackerone.com --fast-scan
+# Set alias in ~/.bashrc or ~/.zshrc for global use
+4. alias unimap='docker run -it --rm --name unimap unimap'
+```
+
 ## Using precompiled binaries
 
 Download the [latest version](https://github.com/Edu4rdSHL/unimap/releases/latest) for your OS and use it.
