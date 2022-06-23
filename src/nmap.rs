@@ -8,7 +8,7 @@ lazy_static! {
     static ref NMAP_DNS_RESOLVERS: String = resolver_engine::RESOLVERS
         .clone()
         .iter()
-        .map(|f| f.to_string())
+        .map(ToString::to_string)
         .collect::<Vec<String>>()
         .join(",");
 }
