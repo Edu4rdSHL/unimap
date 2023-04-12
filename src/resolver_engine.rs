@@ -214,11 +214,15 @@ fn parallel_resolver_engine(
         .collect();
 
     let mut nmap_ips: HashSet<String> = resolv_data
-        .iter()
-        .map(|(_, resolv_data)| resolv_data.ip.clone())
+        .values()
+        .map(|resolv_data| resolv_data.ip.clone())
         .collect();
 
-    nmap_ips.retain(|ip| !ip.is_empty());
+    nmap_ips.retain(|ip| {
+        !ip.is_empty()
+            && ip.parse::<Ipv4Addr>().is_ok()
+            && !ip.parse::<Ipv4Addr>().unwrap().is_private()
+    });
 
     let nmap_data: HashMap<String, Nmaprun> = nmap_ips
         .par_iter()

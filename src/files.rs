@@ -67,7 +67,7 @@ pub fn check_full_path(full_path: &str) -> bool {
 pub fn delete_files(paths: &HashSet<String>) {
     for file in paths {
         if Path::new(&file).exists() {
-            match std::fs::remove_file(&file) {
+            match std::fs::remove_file(file) {
                 Ok(_) => (),
                 Err(e) => error!("Error deleting the file {}. Description: {}", &file, e),
             }
