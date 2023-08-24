@@ -251,6 +251,11 @@ fn parallel_resolver_engine(
         })
         .collect();
 
+    // Delete the args.logs_dir directory if it's empty
+    if args.no_keep_nmap_logs && std::fs::remove_dir(&args.logs_dir).is_err() {
+        error!("Error removing directory {}.", &args.logs_dir)
+    }
+
     resolv_data
         .iter()
         .map(|(target, resolv_data)| {
