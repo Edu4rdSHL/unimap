@@ -9,7 +9,7 @@ pub fn validate_target(target: &str) -> bool {
     !target.starts_with('.')
         && target.contains('.')
         && !target.contains(&SPECIAL_CHARS[..])
-        && target.chars().all(|c| c.is_ascii())
+        && target.is_ascii()
 }
 
 pub fn null_ip_checker(ip: &str) -> String {

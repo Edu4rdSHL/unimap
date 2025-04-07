@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Debug",
             "program": "${workspaceRoot}/target/debug/${workspaceRootFolderName}",
-            "args": "-f targets.txt -u log.csv --resolvers resolvers.txt --iport 1 --lport 10000 --min-rate 10",
+            "args": "-t useast1.sugarcrm.com --fast-scan",
             "cwd": "${workspaceRoot}",
             "sourceLanguages": [
                 "rust"

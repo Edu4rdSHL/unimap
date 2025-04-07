@@ -24,7 +24,13 @@ prettytable-rs = "0.8.0"
 serde-xml-rs = "0.5.1"
 chrono = "0.4.26"
 clap = { version = "2.34.0", features = ["yaml"] }
-config = { version = "0.11.0", features = ["yaml", "json", "toml", "hjson", "ini"] }
+config = { version = "0.11.0", features = [
+    "yaml",
+    "json",
+    "toml",
+    "hjson",
+    "ini",
+] }
 failure = "0.1.8"
 
 # https://github.com/bluejekyll/trust-dns/pull/1632

@@ -220,65 +220,76 @@ fn parallel_resolver_engine(
 
     nmap_ips.retain(|ip| {
         !ip.is_empty()
-            && ip.parse::<Ipv4Addr>().is_ok()
             && !ip.parse::<Ipv4Addr>().unwrap().is_private()
+            && ip.parse::<Ipv4Addr>().is_ok()
     });
 
-    let nmap_data: HashMap<String, Nmaprun> = nmap_ips
-        .par_iter()
-        .map(|ip| {
-            let filename = format!("{}/{}.xml", &args.logs_dir, &ip);
-            match nmap::get_nmap_data(&filename, ip, &args.min_rate, &args.ports, args.fast_scan) {
-                Ok(nmap_data) => {
-                    nmap_data
-                        .host
-                        .clone()
-                        .unwrap_or_default()
-                        .ports
-                        .unwrap_or_default()
-                        .port
-                        .retain(|f| f.state.state == "open");
-                    if args.no_keep_nmap_logs && std::fs::remove_file(&filename).is_err() {
-                        error!("Error removing filename {}.", &filename)
-                    }
-                    (ip.clone(), nmap_data)
-                }
-                Err(e) => {
-                    error!("Error scanning the ip {}. Description: {}", &ip, e);
-                    (String::new(), Nmaprun::default())
-                }
-            }
-        })
-        .collect();
-
-    // Delete the args.logs_dir directory if it's empty
-    if args.no_keep_nmap_logs && std::fs::remove_dir(&args.logs_dir).is_err() {
-        error!("Error removing directory {}.", &args.logs_dir)
-    }
-
-    resolv_data
-        .iter()
-        .map(|(target, resolv_data)| {
-            (
-                target.clone(),
-                ResolvData {
-                    ip: resolv_data.ip.clone(),
-                    ports_data: if resolv_data.ip.is_empty() {
-                        resolv_data.ports_data.clone()
-                    } else {
+    if nmap_ips.is_empty() {
+        error!("No valid IPs found for scanning.\n");
+        std::process::exit(1)
+    } else {
+        let nmap_data: HashMap<String, Nmaprun> = nmap_ips
+            .par_iter()
+            .map(|ip| {
+                let filename = format!("{}/{}.xml", &args.logs_dir, &ip);
+                match nmap::get_nmap_data(
+                    &filename,
+                    ip,
+                    &args.min_rate,
+                    &args.ports,
+                    args.fast_scan,
+                ) {
+                    Ok(nmap_data) => {
                         nmap_data
-                            .get_key_value(&resolv_data.ip)
-                            .unwrap()
-                            .1
                             .host
                             .clone()
                             .unwrap_or_default()
                             .ports
                             .unwrap_or_default()
                             .port
+                            .retain(|f| f.state.state == "open");
+                        if args.no_keep_nmap_logs && std::fs::remove_file(&filename).is_err() {
+                            error!("Error removing filename {}.", &filename)
+                        }
+                        (ip.clone(), nmap_data)
+                    }
+                    Err(e) => {
+                        error!("Error scanning the ip {}. Description: {}", &ip, e);
+                        (String::new(), Nmaprun::default())
+                    }
+                }
+            })
+            .collect();
+
+        // Delete the args.logs_dir directory if it's empty
+        if args.no_keep_nmap_logs && std::fs::remove_dir(&args.logs_dir).is_err() {
+            error!("Error removing directory {}.", &args.logs_dir)
+        }
+
+        resolv_data
+            .iter()
+            .map(|(target, resolv_data)| {
+                (
+                    target.clone(),
+                    ResolvData {
+                        ip: resolv_data.ip.clone(),
+                        ports_data: if resolv_data.ip.is_empty() {
+                            resolv_data.ports_data.clone()
+                        } else {
+                            nmap_data
+                                .get_key_value(&resolv_data.ip)
+                                .unwrap()
+                                .1
+                                .host
+                                .clone()
+                                .unwrap_or_default()
+                                .ports
+                                .unwrap_or_default()
+                                .port
+                        },
                     },
-                },
-            )
-        })
-        .collect()
+                )
+            })
+            .collect()
+    }
 }
