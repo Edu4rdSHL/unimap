@@ -218,6 +218,8 @@ fn parallel_resolver_engine(
         .map(|resolv_data| resolv_data.ip.clone())
         .collect();
 
+    let nmap_ips_orig = nmap_ips.clone();
+
     nmap_ips.retain(|ip| {
         !ip.is_empty()
             && !ip.parse::<Ipv4Addr>().unwrap().is_private()
@@ -225,7 +227,10 @@ fn parallel_resolver_engine(
     });
 
     if nmap_ips.is_empty() {
-        error!("No valid IPs found for scanning.\n");
+        error!(
+            "No valid IPs found for scanning. IPs found: {:?}\n",
+            nmap_ips_orig
+        );
         std::process::exit(1)
     } else {
         let nmap_data: HashMap<String, Nmaprun> = nmap_ips
