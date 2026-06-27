@@ -88,7 +88,7 @@ fi
 echo "Creating manpage..."
 if command -v help2man >/dev/null; then
   if help2man -o "$MANPAGE_DIR" "target/$LINUX_TARGET/release/$NAME"; then
-    echo "Manpage created sucessfully and saved in $MANPAGE_DIR"
+    echo "Manpage created successfully and saved in $MANPAGE_DIR"
   else
     echo "Error creating manpage."
   fi
